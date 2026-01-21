@@ -1,5 +1,20 @@
-exoplanet_module2.csv
-.ipynb_checkpoints/
+# Python
 __pycache__/
-backend/database.db
-__pycache__/
+*.pyc
+*.pkl
+
+# Database
+database.db
+
+# Generated files
+*.png
+*.xlsx
+*.pdf
+
+# Environment
+.env
+.venv/
+.vscode/
+
+# OS
+.DS_Store
