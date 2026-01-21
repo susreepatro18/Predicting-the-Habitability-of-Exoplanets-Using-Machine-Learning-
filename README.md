@@ -104,8 +104,10 @@ ExoHabitAI/
 2. Install dependencies  
    ```bash
    pip install -r requirements.txt
-3. Run the Flask appBashpython app.py
-4. Open:  http://127.0.0.1:5000/
+3. Run the Flask app
+   ```bash
+   python app.py
+5. Open:  http://127.0.0.1:5000/
 
 ## Future Improvements (Optional Ideas)
 
