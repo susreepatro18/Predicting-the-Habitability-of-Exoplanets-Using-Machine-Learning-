@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Habitability Analytics Dashboard</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="/static/css/style.css">
+
+<style>
+body{
+    color:white;
+    font-family:'Segoe UI',sans-serif;
+}
+
+/* Overlay */
+.overlay{
+    background:rgba(0,0,0,0.78);
+    min-height:100vh;
+    padding-top:120px; /* space for navbar */
+}
+
+/* Cards */
+.card{
+    background:#1e1e1e;
+    border-radius:18px;
+    box-shadow:0 0 20px rgba(0,255,255,0.25);
+}
+
+img{
+    border-radius:15px;
+    border:2px solid #2F5AA1;
+}
+
+/* Interpretation guide */
+.interpretation,
+.interpretation h4,
+.interpretation p,
+.interpretation li {
+    color:#eafcff !important;
+}
+
+.interpretation{
+    background:rgba(10,40,50,0.9);
+    border:1px solid #00e5ff;
+    padding:20px;
+    border-radius:14px;
+    box-shadow:0 0 25px rgba(0,229,255,0.35);
+}
+
+.interpretation h4{
+    font-size:1.4rem;
+    margin-bottom:12px;
+    text-shadow:0 0 8px rgba(0,229,255,0.6);
+}
+
+/* Ranking table */
+.rank-table{
+    width:85%;
+    margin:40px auto;
+    border-collapse:collapse;
+    background:rgba(0,0,0,0.6);
+    border-radius:15px;
+    overflow:hidden;
+}
+
+.rank-table th{
+    background:linear-gradient(45deg,#00e5ff,#00bcd4);
+    color:black;
+    padding:15px;
+    font-size:1.1rem;
+}
+
+.rank-table td{
+    padding:12px;
+    text-align:center;
+    color:#e0f7fa;
+    font-size:1rem;
+}
+
+.rank-table tr:nth-child(even){
+    background:rgba(0,255,255,0.08);
+}
+
+.rank-table tr:hover{
+    background:rgba(0,255,255,0.2);
+}
+</style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+{% include "navbar.html" %}
+
+<!-- OVERLAY START -->
+<div class="overlay">
+
+<div class="container">
+
+<h1 class="text-center mb-4">📊 Habitability Analytics Dashboard</h1>
+
+<div class="text-center mb-4">
+    <a href="/generate-dashboard" class="btn btn-warning">
+        🔄 Generate Analytics
+    </a>
+</div>
+
+<!-- Charts -->
+<div class="row g-4">
+
+<div class="col-md-6">
+<div class="card p-3">
+<h5>🌍 Habitability Score Distribution</h5>
+<p class="text-info">
+Shows how predicted planets are distributed from non-habitable to highly habitable.
+</p>
+<img src="/static/plots/score_distribution.png" class="img-fluid">
+</div>
+</div>
+
+<div class="col-md-6">
+<div class="card p-3">
+<h5>🏆 Top Habitable Exoplanets</h5>
+<p class="text-info">
+Top-ranked planets with highest probability of sustaining life.
+</p>
+<img src="/static/plots/top_planets.png" class="img-fluid">
+</div>
+</div>
+
+<div class="col-md-6">
+<div class="card p-3">
+<h5>🧠 Feature Importance Analysis</h5>
+<p class="text-info">
+Shows which parameters influence habitability the most.
+</p>
+<img src="/static/plots/feature_importance.png" class="img-fluid">
+</div>
+</div>
+
+<div class="col-md-6">
+<div class="card p-3">
+<h5>🔗 Star–Planet Correlation</h5>
+<p class="text-info">
+Correlation between planetary & stellar parameters and habitability score.
+</p>
+<img src="/static/plots/correlation_heatmap.png" class="img-fluid">
+</div>
+</div>
+
+</div> <!-- row -->
+
+<!-- Ranking Table -->
+<h2 class="text-center mt-5 mb-3">🏅 Exoplanet Habitability Ranking</h2>
+
+<table class="rank-table">
+<tr>
+    <th>Rank</th>
+    <th>Planet Name</th>
+    <th>Habitability Score</th>
+</tr>
+
+{% for row in ranking %}
+<tr>
+    <td>{{ row.rank }}</td>
+    <td><b>{{ row.planet_name }}</b></td>
+    <td>{{ "%.3f"|format(row.habitability_score) }}</td>
+</tr>
+{% endfor %}
+
+</table>
+<div class="text-center mt-4">
+    <a href="/export/pdf" class="btn btn-danger me-3">
+        📄 Export PDF
+    </a>
+
+    <a href="/export/excel" class="btn btn-success">
+        📊 Export Excel
+    </a>
+</div>
+
+
+<!-- Interpretation -->
+<div class="card mt-4 p-4 interpretation">
+<h4>📘 Interpretation Guide</h4>
+<ul style="font-size:1.1rem;">
+    <li><b>Planet Radius & Mass</b> → Indicates rocky vs gaseous planets</li>
+    <li><b>Equilibrium Temperature</b> → Liquid water possibility</li>
+    <li><b>Stellar Temperature & Luminosity</b> → Energy received by planet</li>
+    <li><b>Orbital & Distance Parameters</b> → Long-term habitability stability</li>
+</ul>
+<p style="margin-top:10px;">
+The AI model combines these parameters to compute a
+<b>probabilistic habitability score</b>, not just a binary decision.
+</p>
+</div>
+
+</div> <!-- container -->
+</div> <!-- overlay -->
+
+</body>
+</html>
